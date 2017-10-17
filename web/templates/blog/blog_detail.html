@@ -1,0 +1,55 @@
+
+{% extends "layout.html" %}
+
+{% block page_title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <h1>{{ post.title }}</h1>
+
+                <p class="lead">
+                    by <a href="#">{{ post.author }}</a>
+                </p>
+                <hr>
+                <p>Posted: {{ post.date }}</p>
+                <hr>
+                <p>{{ post.body }}</p>
+                <hr>
+            </div>
+            <div class="col-md-4">
+                <br><br>
+
+                <div class="well">
+                    <h4>About</h4>
+
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore, perspiciatis adipisci
+                        accusamus
+                        laudantium odit aliquam repellat tempore quos aspernatur vero.</p>
+                </div>
+                <div class="well">
+                    <h4>Top Tags</h4>
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <ul class="list-unstyled">
+                                <li><a href="#">Tag 1</a>
+                                </li>
+                                <li><a href="#">Tag 2</a>
+                                </li>
+                                <li><a href="#">Tag 3</a>
+                                </li>
+                                <li><a href="#">Tag 4</a>
+                                </li>
+                                <li><a href="#">Tag 5</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+    </div>
+{% endblock %}

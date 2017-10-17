@@ -1,0 +1,20 @@
+
+{% extends "layout.html" %}
+{% block content %}
+    <div class="col-lg-4">
+<form action="{{ url_for('user.reset_with_token', token=token) }}" method="POST">
+    <div class="form-group">
+        {{resetform.password.label}}
+        {{resetform.password(placeholder="", class_="form-control")}}
+    </div>
+    <div class="form-group">
+        {{resetform.password2.label}}
+        {{resetform.password2(placeholder="", class_="form-control")}}
+    </div>
+    <br>
+    <br>
+    {{ resetform.csrf_token }}
+    <input class="btn btn-default btn-submit" type="submit" value="Change my password" />
+</form>
+    </div>
+{% endblock %}
