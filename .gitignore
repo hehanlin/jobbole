@@ -47,3 +47,6 @@ env/
 
 # sqlite
 *.db
+
+# Pycharm
+.idea/
