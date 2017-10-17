@@ -50,3 +50,6 @@ env/
 
 # Pycharm
 .idea/
+
+# migrations
+migrations/
