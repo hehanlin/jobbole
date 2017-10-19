@@ -1,4 +1,4 @@
-from common.database import (
+from web.database import (
     Model,
     SurrogatePK,
 )

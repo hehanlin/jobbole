@@ -6,9 +6,9 @@ from flask_migrate import MigrateCommand
 from flask_script import Manager, Shell, Server
 from flask_script.commands import Clean, ShowUrls
 
-from common.database import db
 from common.settings import DevConfig, ProdConfig
 from web.app import create_app
+from web.database import db
 from web.models.user import User
 
 if os.environ.get("WEB_ENV") == 'prod':

@@ -2,7 +2,7 @@
 from factory import Sequence, PostGenerationMethodCall
 from factory.alchemy import SQLAlchemyModelFactory
 
-from common.database import db
+from web.database import db
 from web.models.user import User
 
 

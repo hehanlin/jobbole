@@ -2,7 +2,7 @@ import datetime as dt
 
 from flask_login import UserMixin
 
-from common.database import (
+from web.database import (
     Column,
     Model,
     SurrogatePK,

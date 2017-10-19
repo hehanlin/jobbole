@@ -53,3 +53,9 @@ env/
 
 # migrations
 migrations/
+
+# logging
+*.log
+
+# ipython notebook
+.ipynb_checkpoints/

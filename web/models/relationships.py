@@ -1,4 +1,4 @@
-from common.database import db
+from web.database import db
 
 tags_posts = db.Table('tags_posts',
                         db.Column('tag_id', db.Integer, db.ForeignKey('tags.id')),

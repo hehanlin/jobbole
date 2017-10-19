@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from common.database import (
+from web.database import (
     Column,
     db,
     Model,

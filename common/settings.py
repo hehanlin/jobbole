@@ -5,6 +5,9 @@ os_env = os.environ
 
 
 class Config(object):
+    """
+    web config
+    """
     SECRET_KEY = os_env.get('WEB_SECRET', 'secret-key')  # TODO: Change me
     COMMON_PATH = os.path.abspath(os.path.dirname(__file__))  # This directory
     PROJECT_ROOT = os.path.abspath(os.path.join(COMMON_PATH, os.pardir))
@@ -50,7 +53,7 @@ class TestConfig(Config):
     BCRYPT_LOG_ROUNDS = 1  # For faster tests
     WTF_CSRF_ENABLED = False  # Allows form testing
 
-    
+
 class CeleryConfig(object):
     BROKER_URL = 'redis://he@127.0.0.1:6379/0'  # 指定 Broker
     CELERY_RESULT_BACKEND = 'redis://he@127.0.0.1:6379/1'  # 指定 Backend
@@ -62,3 +65,43 @@ class CeleryConfig(object):
     CELERY_IMPORTS = (  # 指定导入的任务模块
     )
 
+# logging
+LoggingConfig = {
+    'version': 1,
+    'disable_existing_loggers': True,
+
+    'formatters': {
+        'default': {
+            'format': '%(asctime)s- %(module)s:%(lineno)d [%(levelname)1.1s] %(name)s: %(message)s',
+            'datefmt': '%Y/%m/%d %H:%M:%S'
+        },
+    },
+
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'formatter': 'default',
+            'class': 'logging.StreamHandler',
+        },
+        'file': {
+            'level': 'WARNING',
+            'formatter': 'default',
+            'class': 'logging.FileHandler',
+            'filename': Config.PROJECT_ROOT+'/jobbole_log.log',
+            'encoding': 'utf8'
+        }
+    },
+
+    'loggers': {
+        'root': {
+            'handlers': ['console', 'file'],
+            'level': 'DEBUG',
+            'propagate': False,
+        }
+    },
+}
+
+class MongoConfig(object):
+    HOST = 'localhost'
+    PORT = 27017
+    DBNAME = 'jobbole'
