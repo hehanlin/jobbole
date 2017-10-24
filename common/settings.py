@@ -1,57 +1,14 @@
 # -*- coding: utf-8 -*-
+
 import os
 
 os_env = os.environ
 
 
 class Config(object):
-    """
-    web config
-    """
-    SECRET_KEY = os_env.get('WEB_SECRET', 'secret-key')  # TODO: Change me
     COMMON_PATH = os.path.abspath(os.path.dirname(__file__))  # This directory
     PROJECT_ROOT = os.path.abspath(os.path.join(COMMON_PATH, os.pardir))
-    BCRYPT_LOG_ROUNDS = 13
-    ASSETS_DEBUG = False
-    DEBUG_TB_ENABLED = False  # Disable Debug toolbar
-    DEBUG_TB_INTERCEPT_REDIRECTS = False
-    CACHE_TYPE = 'simple'  # Can be "memcached", "redis", etc.
-    MAIL_SERVER = ''
-    MAIL_PORT = 587
-    MAIL_USE_SSL = False
-    MAIL_USERNAME = ''
-    MAIL_PASSWORD = ''
-    MAIL_DEFAULT_SENDER = ''
-    GOOGLE_ANALYTICS = ''
-
-
-class ProdConfig(Config):
-    """Production configuration."""
-    ENV = 'prod'
-    DEBUG = False
-    SQLALCHEMY_DATABASE_URI = 'postgresql://localhost/example'  # TODO: Change me
-    DEBUG_TB_ENABLED = False  # Disable Debug toolbar
-
-
-class DevConfig(Config):
-    """Development configuration."""
-    ENV = 'dev'
-    DEBUG = True
-    DB_NAME = 'dev.db'
-    # Put the db file in project root
-    DB_PATH = os.path.join(Config.PROJECT_ROOT, DB_NAME)
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///{0}'.format(DB_PATH)
-    DEBUG_TB_ENABLED = True
-    ASSETS_DEBUG = True  # Don't bundle/minify static assets
-    CACHE_TYPE = 'simple'  # Can be "memcached", "redis", etc.
-
-
-class TestConfig(Config):
-    TESTING = True
-    DEBUG = True
-    SQLALCHEMY_DATABASE_URI = 'sqlite://'
-    BCRYPT_LOG_ROUNDS = 1  # For faster tests
-    WTF_CSRF_ENABLED = False  # Allows form testing
+    DATABASE_URL = "postgresql+pool://postgres:he@localhost:5432/jobbole"
 
 
 class CeleryConfig(object):
@@ -68,7 +25,6 @@ class CeleryConfig(object):
 # logging
 LoggingConfig = {
     'version': 1,
-    'disable_existing_loggers': True,
 
     'formatters': {
         'default': {
@@ -100,8 +56,3 @@ LoggingConfig = {
         }
     },
 }
-
-class MongoConfig(object):
-    HOST = 'localhost'
-    PORT = 27017
-    DBNAME = 'jobbole'

@@ -1,4 +1,5 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
+
 import os
 
 """
@@ -65,21 +66,38 @@ COMPANY_SIZE_DICT = {
     '少于15人': 6,
 }
 
-"""
-    拉勾相关网页
-"""
 
-JOB_JSON_URL = 'https://www.lagou.com/jobs/positionAjax.json'
+class BOSS(object):
+    """
+        boss直聘相关网页
+    """
+    BASE_URL = "http://www.zhipin.com"
 
-JOB_DETAIL_URL = 'https://www.lagou.com/jobs/{job_id}.html'
 
-COMPANY_DETAIL_URL = 'https://www.lagou.com/gongsi/{company_id}.html'
+class LAGOU(object):
+    """
+        拉勾相关网页
+    """
+    BASE_URL = "http://www.lagou.com"
 
-ALL_CITY_URL = 'https://www.lagou.com/gongsi/allCity.html?option=0-0-0'
+    JOB_JSON_URL = 'https://www.lagou.com/jobs/positionAjax.json'
 
-CITY_COMPANY_URL = 'https://www.lagou.com/gongsi/{city}-{finance_stage}-{industry}.json'
+    JOB_DETAIL_URL = 'https://www.lagou.com/jobs/{job_id}.html'
 
-COMPANY_JOB_URL = 'https://www.lagou.com/gongsi/searchPosition.json'
+    COMPANY_DETAIL_URL = 'https://www.lagou.com/gongsi/{company_id}.html'
+
+    ALL_CITY_URL = 'https://www.lagou.com/gongsi/allCity.html?option=0-0-0'
+
+    CITY_COMPANY_URL = 'https://www.lagou.com/gongsi/{city}-{finance_stage}-{industry}.json'
+
+    COMPANY_JOB_URL = 'https://www.lagou.com/gongsi/searchPosition.json'
+
+
+class ZHILIAN(object):
+    """
+        智联相关网页
+    """
+    BASE_URL = "http://www.zhaopin.com"
 
 """
     其他常量
@@ -124,10 +142,13 @@ CACHE_SIZE = 128
 HTTP_SUCCESS = 200
 
 HTTP_HEADER = {
-    'Accept-Encoding': 'gzip, deflate',
-    'Connection': 'keep-alive',
-    'Cache-Control': 'no-cache',
-    'Pragma': 'no-cache'
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,"
+              "*/*;q=0.8",
+    "Accept-Encoding": "gzip, deflate",
+    "Accept-Language": "zh-CN,zh;q=0.8",
+    "Cache-Control": "no-cache",
+    "Connection": "keep-alive",
+    "Pragma": "no-cache"
 }
 
 USER_AGENT_LIST = [

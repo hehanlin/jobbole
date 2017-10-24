@@ -1,9 +1,0 @@
-
-{% extends "layout.html" %}
-{% block content %}
-    <div class="col-lg-4">
-        <h3>Unsubscribe</h3>
-        <p>We hope you don't really want to unsubscribe from {{ cookiecutter.app_name }}, but if you insist, click below.</p>
-         <a href="{{ url_for('user.unsubscribe_confirm') }}" class="btn btn-default btn-submit" onclick="return confirm('Are you sure?')">Unsubscribe</a>
-    </div>
-{% endblock %}
