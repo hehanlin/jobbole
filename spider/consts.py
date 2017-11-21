@@ -31,16 +31,28 @@ JOB_NATURE_DICT = {
 """
      工作年限要求
 """
-WORK_YEARS_REQUEST_DICT = {
+WORK_YEARS_STORE_DICT = {
     'unknown': 0,
     '1-3年': 1,
     '10年以上': 2,
     '3-5年': 3,
     '5-10年': 4,
     '不限': 5,
-    '应届毕业生': 6,
+    '应届生': 6,
     '1年以下': 7,
 }
+
+WORK_YEARS_SHOW_DICT = [
+    'unknown',
+    '1-3年',
+    '10年以上',
+    '3-5年',
+    '5-10年',
+    '不限',
+    '应届生',
+    '1年以下'
+]
+
 
 """
      学历要求
@@ -73,14 +85,20 @@ class BOSS(object):
     """
     BASE_URL = "http://www.zhipin.com"
 
+    SEARCH_JOB_URL = "http://www.zhipin.com/c{city_code}/h_{city_code}/?query={keyword}"
+
+    PAGE_STOP_FLAG = "javascript:;"
+
 
 class LAGOU(object):
     """
         拉勾相关网页
     """
-    BASE_URL = "http://www.lagou.com"
+    BASE_URL = "https://www.lagou.com"
 
-    JOB_JSON_URL = 'https://www.lagou.com/jobs/positionAjax.json'
+    JOB_SEARCH_URL = "https://www.lagou.com/jobs/list_{keyword}?city={city}&cl=false&fromSearch=true&labelWords=&suginput="
+
+    JOB_JSON_URL = 'https://www.lagou.com/jobs/positionAjax.json?needAddtionalResult=false&isSchoolJob=0'
 
     JOB_DETAIL_URL = 'https://www.lagou.com/jobs/{job_id}.html'
 

@@ -8,7 +8,7 @@ os_env = os.environ
 class Config(object):
     COMMON_PATH = os.path.abspath(os.path.dirname(__file__))  # This directory
     PROJECT_ROOT = os.path.abspath(os.path.join(COMMON_PATH, os.pardir))
-    DATABASE_URL = "postgresql+pool://postgres:he@localhost:5432/jobbole"
+    DATABASE_URL = "postgresql://he:he@localhost:5432/jobbole"
 
 
 class CeleryConfig(object):
@@ -22,37 +22,52 @@ class CeleryConfig(object):
     CELERY_IMPORTS = (  # 指定导入的任务模块
     )
 
+
 # logging
 LoggingConfig = {
-    'version': 1,
-
-    'formatters': {
-        'default': {
-            'format': '%(asctime)s- %(module)s:%(lineno)d [%(levelname)1.1s] %(name)s: %(message)s',
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "simple": {
+            "format": "%(asctime)s- %(module)s:%(lineno)d [%(levelname)1.1s] %(name)s: %(message)s",
             'datefmt': '%Y/%m/%d %H:%M:%S'
-        },
-    },
-
-    'handlers': {
-        'console': {
-            'level': 'DEBUG',
-            'formatter': 'default',
-            'class': 'logging.StreamHandler',
-        },
-        'file': {
-            'level': 'WARNING',
-            'formatter': 'default',
-            'class': 'logging.FileHandler',
-            'filename': Config.PROJECT_ROOT+'/jobbole_log.log',
-            'encoding': 'utf8'
         }
     },
-
-    'loggers': {
-        'root': {
-            'handlers': ['console', 'file'],
-            'level': 'DEBUG',
-            'propagate': False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "level": "DEBUG",
+            "formatter": "simple",
+            "stream": "ext://sys.stdout"
+        },
+        "info_file_handler": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "level": "INFO",
+            "formatter": "simple",
+            "filename": Config.PROJECT_ROOT + '/jobbole_info.log',
+            "maxBytes": 10485760,
+            "backupCount": 20,
+            "encoding": "utf8"
+        },
+        "error_file_handler": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "level": "ERROR",
+            "formatter": "simple",
+            "filename": Config.PROJECT_ROOT + '/jobbole_error.log',
+            "maxBytes": 10485760,
+            "backupCount": 20,
+            "encoding": "utf8"
         }
     },
+    "loggers": {
+        "my_module": {
+            "level": "ERROR",
+            "handlers": ["info_file_handler"],
+            "propagate": False
+        }
+    },
+    "root": {
+        "level": "INFO",
+        "handlers": ["console", "info_file_handler", "error_file_handler"]
+    }
 }

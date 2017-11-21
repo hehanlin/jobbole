@@ -3,10 +3,8 @@
 import random
 import re
 import time
-
-from sqlalchemy import text
-
 from spider import consts
+from spider.consts import WORK_YEARS_STORE_DICT
 
 
 def update_salary_dict(salary_dict, start, end):
@@ -44,37 +42,15 @@ def get_salary_section(string):
     return int(start), int(end)
 
 
+def get_work_years(string):
+    for key,value in WORK_YEARS_STORE_DICT.items():
+        if string == key:
+            return value
+    return WORK_YEARS_STORE_DICT['unknown']
+
+
 def reverse_dict(old_dict):
     return {value: key for (key, value) in old_dict.items()}
-
-
-def execute_sql_file(file_paths, db_session):
-    """
-    执行 sql 文件
-    :param file_paths: .sql 文件的 path 
-    :param db_session: 
-    :return: 
-    """
-    # Open the .sql file
-    for file_path in file_paths:
-        sql_file = open(file_path, 'r')
-
-        # Create an empty command string
-        sql_command = ''
-
-        # Iterate over all lines in the sql file
-        for line in sql_file:
-            # Ignore comented lines
-            if not line.startswith('--'):
-                # Append line to the command string
-                sql_command += line.strip('\n')
-
-                # If the command string ends with ';', it is a full statement
-                if sql_command.endswith(';'):
-                    # Try to execute statemente and commit it
-                    db_session.execute(text(sql_command))
-                    db_session.commit()
-                    sql_command = ''
 
 
 def crawler_sleep():

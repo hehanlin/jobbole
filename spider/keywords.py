@@ -5,7 +5,7 @@ from lxml import etree
 from spider.utils.http_tools import generate_http_headers
 from common.instances import logging_instance
 from spider.consts import BOSS, LAGOU
-from common.models.keywords import Keywords as KeyWordsModel
+from common.sqlalchemy.keywords import Keywords as KeywordsModel
 
 logger = logging_instance(__name__)
 
@@ -17,7 +17,7 @@ def update_keywords_data():
     keywords = [
         {'keyword': each} for each in keywords
     ]
-    KeyWordsModel.insert_many(rows=keywords).execute()
+    KeywordsModel.add_many(keywords)
 
 
 def crawl_lagou_keywords()->list:
@@ -41,3 +41,4 @@ def crawl_boss_keywords()->list:
 
 if __name__ == "__main__":
     print(crawl_boss_keywords()+crawl_lagou_keywords())
+    update_keywords_data()
