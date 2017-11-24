@@ -81,7 +81,6 @@ def get_proxys_from_niaoshao(page=40):
     proxy_list = []
     url = 'http://www.nianshao.me/?stype=2&page={page_no}'
     for page_no in range(1, page + 1):
-        print(url.format(page_no=page_no))
         response = requests.get(url=url.format(page_no=page_no), timeout=10)
         html = etree.HTML(response.text)
         ips = html.xpath('//tbody/tr/td[1]/text()')
@@ -89,5 +88,4 @@ def get_proxys_from_niaoshao(page=40):
         assert len(ips) == len(ports)
         for (ip, port) in zip(ips, ports):
             proxy_list.append(consts.HTTP_PROXY_FORMATTER.format(ip=ip, port=port))
-        print(proxy_list)
     return proxy_list

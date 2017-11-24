@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import requests
-from spider.lagou import http_headers
+from spider.lagou import http_headers, Cookies
 import json
 from spider.consts import LAGOU
 from urllib.parse import quote_plus
@@ -30,7 +30,7 @@ def crawl_search_keyword(keyword_id: int, keyword: str, city_code: str)->list:
     return urls
 
 
-def request_job_list(keyword: str, city_code: str)->list:
+def request_job_list(keyword: str, city_code: str)->set:
     """
     获得一个关键字的url列表
     :param keyword: 
@@ -39,7 +39,7 @@ def request_job_list(keyword: str, city_code: str)->list:
     """
     # TODO: ip pool and cookie pool
     try:
-        # crawler_sleep()
+        crawler_sleep()
         r = requests.post(LAGOU.JOB_JSON_URL,
                           headers=generate_xhr_search_headers(keyword, city_code),
                           data={'first': 'true', 'pn': '1', 'kd': keyword})
@@ -48,16 +48,24 @@ def request_job_list(keyword: str, city_code: str)->list:
         page_size = int(res['resultSize'])
         page_count = total_count//page_size
         url_list = []
-        for page in range(1, page_count+1):
-            # crawler_sleep()
-            r = requests.post(LAGOU.JOB_JSON_URL,
-                              headers=generate_xhr_search_headers(keyword, city_code),
-                              data={'first': 'false', 'pn': page, 'kd': keyword})
-            res = json.loads(r.text)['content']['positionResult']['result']
-            url_list.extend(
-                [LAGOU.JOB_DETAIL_URL.format(job_id=each['positionId']) for each in res]
-            )
-        return url_list
+        i = 1
+        while i <= page_count:
+            try:
+                crawler_sleep()
+                cookies = Cookies.get_random_cookies()
+                r = requests.post(LAGOU.JOB_JSON_URL,
+                                  headers=generate_xhr_search_headers(keyword, city_code),
+                                  data={'first': 'false', 'pn': i, 'kd': keyword},
+                                  cookies=cookies)
+                res = json.loads(r.text)['content']['positionResult']['result']
+                url_list.extend(
+                    [LAGOU.JOB_DETAIL_URL.format(job_id=each['positionId']) for each in res]
+                )
+                i += 1
+            except:
+                i -= 1
+                Cookies.remove_cookies(cookies)
+        return set(url_list)
     except Exception as e:
         logger.error(e)
 

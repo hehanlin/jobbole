@@ -14,8 +14,8 @@ logger = logging_instance(__name__)
 def http_headers():
     headers = generate_http_headers()
     headers.update({
-        'Host': 'www.zhipin.com',
-        'Referer': 'https://www.zhipin.com',
+        'Host': BOSS.HOST,
+        'Referer':BOSS.BASE_URL,
         'Upgrade-Insecure-Requests': '1'
     })
     return headers

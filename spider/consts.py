@@ -83,6 +83,8 @@ class BOSS(object):
     """
         boss直聘相关网页
     """
+    HOST = "www.zhipin.com"
+
     BASE_URL = "http://www.zhipin.com"
 
     SEARCH_JOB_URL = "http://www.zhipin.com/c{city_code}/h_{city_code}/?query={keyword}"
@@ -94,6 +96,8 @@ class LAGOU(object):
     """
         拉勾相关网页
     """
+    HOST = "www.lagou.com"
+
     BASE_URL = "https://www.lagou.com"
 
     JOB_SEARCH_URL = "https://www.lagou.com/jobs/list_{keyword}?city={city}&cl=false&fromSearch=true&labelWords=&suginput="
