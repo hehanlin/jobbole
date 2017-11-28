@@ -3,11 +3,12 @@
 import logging
 import random
 import time
-
 import requests
-
+from common.instances import logging_instance
 from spider import consts
-from spider.utils.http_tools import get_proxys
+from spider.utils.proxy import Proxies
+
+logger = logging_instance(__name__)
 
 
 class Cookies(object):
@@ -18,7 +19,7 @@ class Cookies(object):
     @classmethod
     def refresh_cookies(cls):
         """刷新 cookie """
-        proxys = get_proxys()
+        proxys = Proxies.get_proxies(number=40)
         cls._cookies = cls._get_cookies_from_proxys(proxys)
         cls._last_update_time = time.time()
 
@@ -35,19 +36,23 @@ class Cookies(object):
         cls._cookies.remove(cookies)
 
     @classmethod
-    def _get_cookies_from_proxys(cls, proxys, proxy_type='https'):
-        logging.info('重新获取 --{}-- cookies !'.format(cls.url))
-        logging.info('代理 IP 的数量:{}'.format(len(proxys)))
+    def _get_cookies_from_proxys(cls, proxys):
+        logger.info('重新获取 --{}-- cookies !'.format(cls.url))
+        logger.info('代理 IP 的数量:{}'.format(len(proxys)))
         cookies = []
         for proxy in proxys:
             try:
+                logger.info("--%s--尝试用%s获取cookie" % (cls.url, proxy))
+                proxies = {
+                    'http': 'http://{}'.format(proxy),
+                    'https': 'http://{}'.format(proxy)
+                }
                 response = requests.get(cls.url, # cls.url 子类重写
-                                        proxies={proxy_type: proxy},
-                                        allow_redirects=False,
-                                        timeout=2)
+                                        proxies=proxies,
+                                        timeout=5)
                 if len(response.cookies):
                     cookies.append(response.cookies)
-            except:
-                pass
-        logging.info('--{}--可用 cookies 数量: {}'.format(cls.url, len(cookies)))
+            except Exception as e:
+                logger.error("--%s--获取cookie失败--proxy:%s--%s" % (cls.url, proxy, e))
+        logger.info('--{}--可用 cookies 数量: {}'.format(cls.url, len(cookies)))
         return cookies
